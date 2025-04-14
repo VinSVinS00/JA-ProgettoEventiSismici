@@ -27,6 +27,7 @@ public class Main extends Application {
         stage.show();
         
         //modifica per vedere se worka tutto
+        //sassari calcio
     }
 
     /**
