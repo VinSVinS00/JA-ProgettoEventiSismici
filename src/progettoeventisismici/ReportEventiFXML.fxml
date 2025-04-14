@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="640.0" prefWidth="947.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="progettoeventisismici.ReportEventiFXMLController">
+   <children>
+      <TableView fx:id="table" layoutX="135.0" layoutY="21.0" prefHeight="385.0" prefWidth="678.0">
+        <columns>
+          <TableColumn fx:id="colonnaData" prefWidth="206.0" text="Date" />
+          <TableColumn fx:id="colonnaMagnitudo" minWidth="0.0" prefWidth="98.0" text="Magnitude" />
+            <TableColumn fx:id="colonnaLuogo" prefWidth="373.0" text="Location" />
+        </columns>
+      </TableView>
+      <DatePicker fx:id="dateStart" layoutX="243.0" layoutY="436.0" />
+      <DatePicker fx:id="dateEnd" layoutX="243.0" layoutY="484.0" />
+      <Label layoutX="153.0" layoutY="438.0" text="Data inizio">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="153.0" layoutY="486.0" text="Data fine">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txfLimiteRis" layoutX="626.0" layoutY="436.0" promptText="1000" />
+      <Label layoutX="501.0" layoutY="438.0" text="Limite risultati">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="caricaBtn" layoutX="153.0" layoutY="554.0" mnemonicParsing="false" onAction="#caricaDati" text="Carica" />
+      <ProgressBar fx:id="progrBar" layoutX="237.0" layoutY="554.0" prefHeight="31.0" prefWidth="249.0" progress="0.0" />
+   </children>
+</AnchorPane>
