@@ -11,10 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/**
- *
- * @author vitol
- */
+
 public class Main extends Application {
     
     @Override
@@ -28,9 +25,6 @@ public class Main extends Application {
 
     }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         launch(args);
     }
