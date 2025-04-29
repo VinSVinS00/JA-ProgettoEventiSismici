@@ -12,6 +12,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import javafx.collections.FXCollections;
@@ -22,7 +24,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -61,6 +65,12 @@ public class ReportEventiFXMLController implements Initializable {
         colonnaLuogo.setCellValueFactory(new PropertyValueFactory("eventLocationName"));
         
         eventi = FXCollections.observableArrayList();
+        table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        
+        MenuItem stampaItem = new MenuItem("Stampa");
+        
+        
+
         
     }    
 
@@ -86,13 +96,22 @@ public class ReportEventiFXMLController implements Initializable {
             
             URL url = new URL(urlSito);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line;
             reader.readLine(); /*skip prima riga che sono i tipi di dati da leggere*/
             
+            List<String> righe = new ArrayList<>();
             while((line = reader.readLine()) != null){
+                righe.add(line);
+            }
+            
+            int righeTot = righe.size();
+            int righeLette = 0;
+            
+            for(String riga : righe){
                 
-                String[] campi = line.split("\\|");
+                String[] campi = riga.split("\\|");
                 
                 String evento = campi[0];
                 String time = campi[1];
@@ -112,17 +131,23 @@ public class ReportEventiFXMLController implements Initializable {
                 LocalDateTime dataOra = LocalDateTime.parse(time);
                 LocalDate soloData = dataOra.toLocalDate();
                 
+                
+                
                 if(eventi.size() < Integer.parseInt(txfLimiteRis.getText())){
                     
                     if(soloData.isEqual(dateStart.getValue()) || soloData.isEqual(dateEnd.getValue())){
                         eventi.add(new Evento(evento,dataOra,latitude,longitude,depth,author,catalog,contributor,contributorID,magType,magnitude,magAuthor,eventLocationName,eventType));
+                        righeLette++;
                     } else if(soloData.isAfter(dateStart.getValue())){
                         if(soloData.isBefore(dateEnd.getValue())){
                             eventi.add(new Evento(evento,dataOra,latitude,longitude,depth,author,catalog,contributor,contributorID,magType,magnitude,magAuthor,eventLocationName,eventType));
+                            righeLette++;
                         }
                     }
                 }
                 
+                
+                progrBar.setProgress((double) righeLette / righeTot);
                 
             }
             

@@ -35,6 +35,11 @@
          </font>
       </Label>
       <Button fx:id="caricaBtn" layoutX="153.0" layoutY="554.0" mnemonicParsing="false" onAction="#caricaDati" text="Carica" />
-      <ProgressBar fx:id="progrBar" layoutX="237.0" layoutY="554.0" prefHeight="31.0" prefWidth="249.0" progress="0.0" />
+      <ProgressBar fx:id="progrBar" layoutX="595.0" layoutY="554.0" prefHeight="31.0" prefWidth="218.0" progress="0.0" />
+      <Label layoutX="492.0" layoutY="556.0" text="Dati caricati: ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
