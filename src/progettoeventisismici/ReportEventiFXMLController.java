@@ -6,6 +6,9 @@
 package progettoeventisismici;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -19,10 +22,12 @@ import java.util.Scanner;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
@@ -31,6 +36,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 
 public class ReportEventiFXMLController implements Initializable {
@@ -67,9 +74,33 @@ public class ReportEventiFXMLController implements Initializable {
         eventi = FXCollections.observableArrayList();
         table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         
-        MenuItem stampaItem = new MenuItem("Stampa");
+        MenuItem stampaItem = new MenuItem("Salva selezione");
         
+        stampaItem.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                ObservableList<Evento> selezionati = table.getSelectionModel().getSelectedItems();
+                try{
+                    FileChooser fc = new FileChooser();
+                    fc.setTitle("Scegli dove salvare");
+                    fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv"));
+                    fc.setInitialFileName("eventi.csv");
+                    Stage stage = (Stage) table.getScene().getWindow();
+                    File file = fc.showSaveDialog(stage);
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                    for(Evento e : selezionati){
+                        writer.write(e.getTime() + " | " + e.getMagnitude() + " | " + e.getEventLocationName() + "\n");
+                    }
+                    writer.close();
+                    
+                } catch(IOException ex){
+                    
+                }
+            }
+        });
         
+        ContextMenu contextMenu = new ContextMenu(stampaItem);
+        table.setContextMenu(contextMenu);
 
         
     }    
@@ -152,7 +183,6 @@ public class ReportEventiFXMLController implements Initializable {
             }
             
             table.setItems(eventi);
-
             
         } catch(IOException ex) {
             
